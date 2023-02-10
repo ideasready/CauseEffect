@@ -17,9 +17,15 @@ export function findByUsername(username) {
 }
 
 export function findByRemove(username) {
-  const index = data.findIndex((item) => item.username === username);
-  if (index !== -1) {
-    data.splice(index, 1);
+  if (findByUsername(username)) {
+    const index = data.findIndex((item) => item.username === username);
+    if (index !== -1) {
+      data.splice(index, 1);
+    }
+    saveInLocalStorage();
+    return true;
+  } else {
+    return false;
   }
 }
 

@@ -1,8 +1,8 @@
-import { add, getAll, getIndexByUsername } from './database.js';
+import { add, getAll, findByRemove } from './database.js';
+let data;
+
 // get buttons
 const btn_create = document.getElementById('btn-create');
-const btn_delete = document.getElementById('btn-delete');
-const btn_update = document.getElementById('btn-update');
 const btn_logout = document.getElementById('btn-logout');
 const btn_create_user = document.getElementById('btn-create-user');
 const btn_close = document.getElementById('btn-close');
@@ -22,7 +22,7 @@ const email = document.getElementById('email');
 const tbody = document.getElementById('users');
 
 function loadTable() {
-  const data = getAll();
+  data = getAll();
   tbody.innerHTML = '';
   data.forEach((item) => {
     tbody.innerHTML += `
@@ -34,7 +34,7 @@ function loadTable() {
         <td>${item.role}</td>
         <td>
           <button class="btn-update">Update</button>
-          <button class="btn-delete" id="btn-delete">Delete</button>
+          <button class="btn-delete">Delete</button>
         </td>
       </tr>
     `;
@@ -47,16 +47,25 @@ btn_logout.addEventListener('click', function () {
   window.location.href = '../index.html';
 });
 
-btn_delete.addEventListener('click', function () {
-  const username = prompt('Enter username');
-  if (username) {
-    const index = getIndexByUsername(username);
-    if (index !== -1) {
-      const data = getAll();
-      data.splice(index, 1);
-      loadTable();
+// remove user
+tbody.addEventListener('click', function (e) {
+  if (e.target.classList.contains('btn-delete')) {
+    // verify if only one user admin exists
+    const user = e.target.parentElement.parentElement.children[4].textContent;
+    if (user === 'admin' && data.length === 1) {
+      alert('You can not delete the last user admin');
+      return;
     } else {
-      alert('User not found');
+      const username = e.target.parentElement.parentElement.children[0].textContent;
+      // verify if user exists
+      const index = findByRemove(username); // remove user
+      if (index) {
+        loadTable(); // reload table
+        return;
+      } else {
+        alert('User not found');
+        return;
+      }
     }
   }
 });
@@ -88,7 +97,16 @@ btn_create_user.addEventListener('click', function () {
       email: emailValue,
     });
     if (user) {
+      // clear inputs
+      user.value = '';
+      pass.value = '';
+      role.value = '';
+      firstName.value = ''; 
+      lastName.value = '';
+      email.value = '';
+
       popup.style.display = 'none';
+      loadTable(); // reload table
     } else {
       alert('User already exists');
     }
