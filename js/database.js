@@ -34,7 +34,14 @@ export function getIndexByUsername(username) {
 }
 
 export function update(index, item) {
-  data[index] = item;
+  try {
+    data[index] = item;
+    saveInLocalStorage();
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 }
 
 export function getAll() {
