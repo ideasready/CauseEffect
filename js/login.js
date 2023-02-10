@@ -14,21 +14,16 @@ btn.addEventListener('click', function () {
   // get pass value
   const passValue = pass.value;
 
-  // check if user is admin
-  if (userValue === 'admin') {
+  // check if user exists
+  if (findByUsername(userValue)) {
+    let user = findByUsername(userValue);
     // check if pass is correct
-    if (passValue === 'admin') {
-      // log in
-      console.log('Logged in');
-    } else {
-      // wrong pass
-      console.log('Wrong password');
-    }
-  } else if (findByUsername(userValue)) {
-    // check if pass is correct
-    if (findByUsername(userValue).password === passValue) {
-      // log in
-      console.log('Logged in');
+    if (user.password === passValue) {
+      if (user.role === 'admin') {
+        window.location.href = 'pages/admin.html';
+      } else {
+        window.location.href = 'pages/user.html';
+      }
     } else {
       // wrong pass
       console.log('Wrong password');

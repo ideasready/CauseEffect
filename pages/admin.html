@@ -8,7 +8,7 @@
 
   <link rel="stylesheet" href="../css/admin.css">
   <link rel="stylesheet" href="../css/global.css">
-  <!-- <script src="../js/admin.js" type="module" defer></script> -->
+  <script src="../js/admin.js" type="module" defer></script>
 
   <meta name="description" content="Cause Effect is a web application that allows admins to create and manage users.">
   <meta name="keywords" content="Cause Effect, User Management, Admin, User, Create, Manage, Delete, Update">
@@ -39,24 +39,14 @@
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody id="table-body">
-            <tr>
-              <td>admin</td>
-              <td>João Gustavo</td>
-              <td>Soares Bispo</td>
-              <td>jgbispo@admin.com</td>
-              <td>Admin</td>
-              <td>
-                <button class="btn-update">Update</button>
-                <button class="btn-delete">Delete</button>
-              </td>
+          <tbody id="users">
           </tbody>
         </table>
       </div>
     </div>
   </div>
 
-  <div class="filterPopup">
+  <div id="popup" class="filterPopup">
     <div class="popup">
       <div class="popup-content">
         <h1>Create User</h1>

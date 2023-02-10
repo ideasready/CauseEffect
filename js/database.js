@@ -1,7 +1,15 @@
-const data = [];
+const data = JSON.parse(localStorage.getItem('data')) || [];
 
 export function add(item) {
-  data.push(item);
+
+  if (findByUsername(item.username)) {
+    console.log('User already exists');
+    return false;
+  } else {
+    data.push(item);
+    saveInLocalStorage();
+    return true;
+  }
 }
 
 export function findByUsername(username) {
@@ -27,4 +35,6 @@ export function getAll() {
   return data;
 }
 
-add({ username: 'user', password: 'user' });
+function saveInLocalStorage() {
+  localStorage.setItem('data', JSON.stringify(data));
+}
