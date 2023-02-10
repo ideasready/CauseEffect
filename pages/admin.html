@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <script src="../js/admin.js" type="module" defer></script>
+
+  <meta name="description" content="Cause Effect is a web application that allows admins to create and manage users.">
+  <meta name="keywords" content="Cause Effect, User Management, Admin, User, Create, Manage, Delete, Update">
+  <meta name="author" content="João Gustavo Soares Bispo">
+  <meta name="revisit-after" content="7 days">
+  <meta name="language" content="English">
+
+  <title>Cause Effect - Admin</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="form">
+      <h1>Users</h1>
+      <div class="form-actions">
+        <button id="btn-create">Create</button>
+        <button id="btn-logout">Logout</button>
+      </div>
+      <div class="table">
+        <table>
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="users">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="popup" class="filterPopup">
+    <div class="popup">
+      <div class="popup-content">
+        <h1>Create User</h1>
+        <div class="form-actions">
+          <button id="btn-close" class="btn-close">x</button>
+        </div>
+        <div class="form-fields">
+          <input id="user" type="text" name="username" placeholder="Username" required>
+          <input id="pass" type="password" name="password" placeholder="Password" required>
+          <input id="first-name" type="text" name="first-name" placeholder="First Name" required>
+          <input id="last-name" type="text" name="last-name" placeholder="Last Name" required>
+          <input id="email" type="email" name="email" placeholder="Email" required>
+          <select id="role" name="role" required>
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+          </select>
+          <button id="btn-create-user">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
