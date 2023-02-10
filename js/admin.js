@@ -1,12 +1,22 @@
-import { add, getAll, findByRemove } from './database.js';
+import {
+  add,
+  getAll,
+  findByRemove,
+  findByUsername,
+  update,
+  getIndexByUsername
+} from './database.js';
+
 let data;
 
 // get buttons
 const btn_create = document.getElementById('btn-create');
 const btn_logout = document.getElementById('btn-logout');
 const btn_create_user = document.getElementById('btn-create-user');
+const btn_update_user = document.getElementById('btn-update-user');
 const btn_close = document.getElementById('btn-close');
 
+btn_update_user.style.display = 'none';
 // get popup
 const popup = document.getElementById('popup');
 
@@ -68,6 +78,58 @@ tbody.addEventListener('click', function (e) {
       }
     }
   }
+
+  if (e.target.classList.contains('btn-update')) {
+    btn_create_user.style.display = 'none';
+    const username = e.target.parentElement.parentElement.children[0].textContent;
+    const index = getIndexByUsername(username);
+    const userFound = findByUsername(username);
+    if (userFound) {
+      // set inputs
+      user.value = userFound.username;
+      pass.value = userFound.password;
+      role.value = userFound.role;
+      firstName.value = userFound.fistName;
+      lastName.value = userFound.lastName;
+      email.value = userFound.email;
+
+      popup.style.display = 'block';
+      btn_update_user.style.display = 'block';
+
+      btn_update_user.addEventListener('click', function () {
+        if (user.value && pass.value && role.value && firstName.value && lastName.value && email.value) {
+          const newUser = update(index, {
+            username: user.value,
+            password: pass.value,
+            role: role.value,
+            fistName: firstName.value,
+            lastName: lastName.value,
+            email: email.value,
+          });
+
+          if (newUser) {
+            // clear inputs
+            user.value = '';
+            pass.value = '';
+            role.value = '';
+            firstName.value = '';
+            lastName.value = '';
+            email.value = '';
+
+            popup.style.display = 'none';
+            btn_update_user.style.display = 'none';
+            btn_create_user.style.display = 'block';
+            loadTable(); // reload table
+          } else {
+            alert('User already exists');
+          }
+        }
+
+      });
+    } else {
+      alert('User not found');
+    }
+  }
 });
 
 // btn event listener popup
@@ -88,7 +150,7 @@ btn_create_user.addEventListener('click', function () {
     emailValue = email.value;
 
   if (userValue && passValue && roleValue && firstNameValue && lastNameValue && emailValue) {
-    const user = add({
+    const newUser = add({
       username: userValue,
       password: passValue,
       role: roleValue,
@@ -96,12 +158,13 @@ btn_create_user.addEventListener('click', function () {
       lastName: lastNameValue,
       email: emailValue,
     });
-    if (user) {
+
+    if (newUser) {
       // clear inputs
       user.value = '';
       pass.value = '';
       role.value = '';
-      firstName.value = ''; 
+      firstName.value = '';
       lastName.value = '';
       email.value = '';
 
